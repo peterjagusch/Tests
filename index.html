@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Menu System</title>
+		
+		<style type="text/css">
+		body{
+			color: #fff;
+		}
+		ul {
+			list-style: none;
+			padding: 0px;
+			margin: 0px;
+			width: 150px;
+		}
+		ul li {
+			position: relative;
+			border:1px solid #000;
+			background: #ccc;
+			padding: 5px 10px 5px 10px;
+			color: #fff;
+			
+		}
+		li ul {
+			display: none;
+			position: absolute;
+			left: 149px;
+			top: 0px;
+		}
+		ul li:hover {
+			background: #b8b8b8;
+			color: #6d6d6d;
+		}
+
+		li:hover > ul {
+			display: block; 
+			position: absolute;
+		}
+		li:hover li {
+			float: none;
+		}
+
+		#drop-nav li ul li {
+			border-top: 0px;
+		}
+
+		.title:after{
+			content: '\00276F';
+			float: right;
+		}
+	</style>
+	</head>
+	<body>
+	
+		<ul id="drop-nav">
+
+		</ul>
+
+
+
+<script>
+ var menuData = {
+        "menu":[
+            {
+                "title" : "Events",
+                "submenu" : [
+                    {
+                        "title":"First Event",
+                        "uri": "#"
+                    },
+                    {
+                        "title":"Another Event",
+                        "uri":"#"
+                    }
+                ],
+                "uri" : "#"
+            },
+            {
+                "title" : "Community",
+                "uri" : "#"
+            },
+            {
+                "title" : "Articles",
+                "submenu" : [
+                    {
+                        "title":"An Article",
+                        "uri": "#"
+                    },
+                    {
+                        "title":"Another Article",
+                        "uri":"#"
+                    },
+                    {
+                        "title":"The Third Article",
+                        "uri":"#"
+                    }
+                ],
+                "uri" : "#"
+            },
+            {
+                "title" : "Reporting",
+                "submenu" : [
+                    {
+                        "title":"Activity Log",
+                        "submenu" : [
+                            {
+                                "title":"Activity",
+                                "uri": "#"
+                            },
+                            {
+                                "title":"Logs",
+                                "uri":"#"
+                            },
+                            {
+                                "title":"Server Logs",
+                                "uri":"#"
+                            }
+                        ],
+                        "uri": "#"
+                    },
+                    {
+                        "title":"Statistics",
+                        "submenu" : [
+                            {
+                                "title":"Real-Time",
+                                "uri": "#"
+                            },
+                            {
+                                "title":"Source Metrics",
+                                "uri":"#"
+                            },
+                            {
+                                "title":"Users",
+                                "uri":"#"
+                            },
+                            {
+                                "title":"Slideshows",
+                                "uri":"#"
+                            }
+                        ],
+                        "uri":"#"
+                    },
+                    {
+                        "title":"Export/Archive",
+                        "submenu" : [
+                            {
+                                "title":"Export",
+                                "uri": "#"
+                            },
+                            {
+                                "title":"Archive",
+                                "uri":"#"
+                            }
+                        ],
+                        "uri":"#"
+                    },
+                    {
+                        "title":"Support",
+                        "submenu" : [
+                            {
+                                "title":"Support",
+                                "uri": "#"
+                            },
+                            {
+                                "title":"More Support",
+                                "uri":"#"
+                            }
+                        ],
+                        "uri":"#"
+                    }
+                ],
+                "uri" : "#"
+            },
+            {
+                "title" : "Syndication",
+                "submenu" : [
+                    {
+                        "title":"Service",
+                        "uri": "#"
+                    },
+                    {
+                        "title":"Syndication",
+                        "uri":"#"
+                    }
+                ],
+                "uri" : "#"
+            },
+            {
+                "title" : "API",
+                "submenu" : [
+                    {
+                        "title":"API",
+                        "uri": "#"
+                    },
+                    {
+                        "title":"RestFul API",
+                        "uri":"#"
+                    }
+                ],
+                "uri" : "#"
+            }
+        ]
+    };
+
+	//Create First Elements and call addSubMenu function
+    function menuElem(obj) {
+	var el = document.getElementById("drop-nav")
+        for (var i = 0; i < obj.length; i++) {
+			//Create and add menu items
+            var menuElement = document.createElement("li");
+            el.appendChild(menuElement);
+
+            var title = document.createElement("div");
+            title.innerHTML = obj[i].title;
+			
+			//If there are Submenu items
+            if (typeof obj[i].submenu != 'undefined') {
+				title.className = 'title';
+				addSubMenu(obj[i], menuElement);
+            }
+			//Add to drop-nav
+			menuElement.appendChild(title);
+        }
+    }
+
+	
+	function addSubMenu(obj, addTo){
+	var submenu = obj.submenu;
+	if (typeof submenu != 'undefined') {
+		//Create sub menu and add items.
+		var subMenuItem = document.createElement("ul");
+		for (var x = 0; x < submenu.length; x++) {
+			//Create list item and add in div
+			var submenuElement = document.createElement("li");
+            var title = document.createElement("div");
+            title.innerHTML = submenu[x].title;
+			submenuElement.appendChild(title);
+			subMenuItem.appendChild(submenuElement);
+			addTo.appendChild(subMenuItem);
+			if(submenu[x].submenu){
+				title.className = 'title';
+				//If more items, infinite usage
+				addSubMenu(submenu[x], submenuElement)
+			}
+		}
+	
+	}
+}
+	
+menuElem(menuData.menu);	
+</script>
